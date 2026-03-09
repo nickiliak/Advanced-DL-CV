@@ -7,6 +7,13 @@ description: Generate and update week_report/README.md and a 1-page .tex file fo
 
 Guidelines for generating and updating the `week_report/README.md` and a 1-page `.tex` file for each exercise.
 
+### Update Logic
+
+- If the report does not exist, generate both files from scratch.
+- If the report exists, check for new information (code changes, new images, updated PDF/questions).
+- Update the report to include new findings, results, or images if applicable.
+- Always use images from the exercise's outputs folder (e.g., `ExerciseX.Y/outputs/`) to enhance the report, referencing or embedding them in both Markdown and LaTeX.
+
 ### Purpose
 
 The `week_report/README.md` in each `ExerciseX.Y/week_report/` directory should contain a concise summary and analysis of the exercise, including:
@@ -20,27 +27,28 @@ A corresponding 1-page `.tex` file should be generated, suitable for academic su
 ### Generation Process
 
 **1. Read Exercise PDF**
-- Locate the PDF for the exercise (e.g., `ExerciseX.Y/ExerciseX.Y.pdf`)
-- Extract questions, instructions, and relevant context
+  - Locate the PDF for the exercise (e.g., `ExerciseX.Y/ExerciseX.Y.pdf`)
+  - Extract questions, instructions, and relevant context
 
 **2. Analyze Code**
-- Review all scripts in the exercise's `src/` directory
-- Identify main algorithms, models, and workflow
-- Summarize implementation details and results
+  - Review all scripts in the exercise's `src/` directory
+  - Identify main algorithms, models, and workflow
+  - Summarize implementation details and results
 
 **3. Compile Report**
-- Answer exercise questions from the PDF
-- Summarize code logic, results, and insights
-- Highlight any challenges or unique solutions
+  - Answer exercise questions from the PDF
+  - Summarize code logic, results, and insights
+  - Highlight any challenges or unique solutions
+  - Include relevant images from the outputs folder (e.g., `outputs/example.png`, `outputs/forward.png`, `outputs/reverse.png`) in both Markdown and LaTeX reports.
 
 **4. Format Files**
-- `week_report/README.md`: Markdown summary, organized by question and topic
-- `.tex` file: 1-page academic summary, formatted for clarity and brevity
+  - `week_report/README.md`: Markdown summary, organized by question and topic, with image references.
+  - `.tex` file: 1-page academic summary, formatted for clarity and brevity, with image inclusion using \includegraphics.
 
 **5. Update Strategy**
-- If the PDF or code changes, regenerate both files
-- Keep only current exercise content; remove outdated sections
-- Ensure the `.tex` file is exactly 1 page (use \newpage or adjust content as needed)
+  - If the PDF, code, or outputs change, regenerate or update both files.
+  - Keep only current exercise content; remove outdated sections.
+  - Ensure the `.tex` file is exactly 1 page (use \newpage or adjust content as needed).
 
 ### File Structure
 

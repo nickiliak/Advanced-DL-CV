@@ -13,6 +13,33 @@ This exercise implements and visualizes the Denoising Diffusion Probabilistic Mo
 \end{itemize}
 
 \section*{Code Insights}
+
 Main algorithms: Forward diffusion (q\_sample), reverse process (p\_sample\_loop), and UNet architecture for noise prediction. Results: Example sprites and diffusion parameters are visualized; model checkpoints and generated samples are saved. Challenges: Device mismatches (CPU/GPU), absolute path handling, and reproducible training via config files.
+
+\section*{Visual Results}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.45\textwidth]{../outputs/diffusion_params.png}
+  \caption{Diffusion Parameters}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.45\textwidth]{../outputs/example.png}
+  \caption{Example Sprites}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.45\textwidth]{../outputs/forward.png}
+  \caption{Forward Process}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.45\textwidth]{../outputs/reverse.png}
+  \caption{Reverse Process}
+\end{figure}
 
 \end{document}

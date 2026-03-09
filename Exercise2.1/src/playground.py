@@ -45,8 +45,8 @@ if __name__ == '__main__':
     seed = config.get('seed', 2929)
     torch.manual_seed(seed)
 
-    assets_dir = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), config['assets_dir']))
-    os.makedirs(assets_dir, exist_ok=True)
+    outputs = os.path.abspath(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), config['outputs_dir']))
+    os.makedirs(outputs, exist_ok=True)
 
     # dataset and dataloaders
     transform = transforms.Compose([
@@ -62,7 +62,7 @@ if __name__ == '__main__':
     images  = next(iter(trainloader))
     # visualize examples
     example_images = np.stack([im_normalize(tens2image(images[idx])) for idx in range(batch_size)], axis=0)
-    show(example_images, 'Example sprites', save_path=os.path.join(assets_dir, 'example.png'))
+    show(example_images, 'Example sprites', save_path=os.path.join(outputs, 'example.png'))
 
     ################## Diffusion class ##################
     # TASK 1: Implement beta, alpha, and alpha_hat 
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     plt.plot(range(1,diffusion.T+1), diffusion.betas.cpu().numpy(), label='betas', linewidth=3)
     plt.title('Diffusion parameters')
     plt.legend()
-    plt.savefig('assets/diffusion_params.png', bbox_inches='tight')
+    plt.savefig(os.path.join(outputs, 'diffusion_params.png'), bbox_inches='tight')
     plt.show()
     #####################################################
     
@@ -89,7 +89,7 @@ if __name__ == '__main__':
     #####################################################
 
     noised_images = np.stack([im_normalize(tens2image(xt[idx].cpu())) for idx in range(t.shape[0])], axis=0)
-    show(noised_images, title='Forward process', fig_titles=fig_titles, save_path='assets/forward.png')
+    show(noised_images, title='Forward process', fig_titles=fig_titles, save_path=os.path.join(outputs, 'forward.png'))
 
     ################## Inverse process ##################
     model = UNet(device=device)
@@ -103,6 +103,6 @@ if __name__ == '__main__':
     # TASK 3: Implement it in the diffusion class
     x_new, intermediate_images = diffusion.p_sample_loop(model, 1, timesteps_to_save=t)
     intermediate_images = [tens2image(img.cpu()) for img in intermediate_images]
-    show(intermediate_images, title='Reverse process', fig_titles=fig_titles, save_path='assets/reverse.png')
+    show(intermediate_images, title='Reverse process', fig_titles=fig_titles, save_path=os.path.join(outputs, 'reverse.png'))
     #####################################################
 

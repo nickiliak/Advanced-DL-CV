@@ -12,6 +12,21 @@ This exercise implements and visualizes the Denoising Diffusion Probabilistic Mo
   - A3: Ensuring correct device placement for tensors, managing paths for assets and models, and implementing the diffusion equations accurately.
 
 ## Code Insights
-- Main algorithms: Forward diffusion (q_sample), reverse process (p_sample_loop), and UNet architecture for noise prediction.
-- Results: Example sprites and diffusion parameters are visualized; model checkpoints and generated samples are saved.
-- Challenges: Device mismatches (CPU/GPU), absolute path handling, and reproducible training via config files.
+
+### Visual Results
+#### Diffusion Parameters
+![Diffusion Parameters](../outputs/diffusion_params.png)
+
+#### Example Sprites
+![Example Sprites](../outputs/example.png)
+
+#### Forward Process
+![Forward Process](../outputs/forward.png)
+
+#### Reverse Process
+![Reverse Process](../outputs/reverse.png)
+
+---
+Main algorithms: Forward diffusion (q_sample), reverse process (p_sample_loop), and UNet architecture for noise prediction.
+Results: Example sprites and diffusion parameters are visualized; model checkpoints and generated samples are saved.
+Challenges: Device mismatches (CPU/GPU), absolute path handling, and reproducible training via config files.
