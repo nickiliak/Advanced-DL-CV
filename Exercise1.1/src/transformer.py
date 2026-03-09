@@ -38,7 +38,7 @@ class Attention(nn.Module):
         Now you have to split the projected keys, queries, and values to multiple heads.
         """
         # First split the embed_dim to num_heads x head_dim
-        keys = ...
+        keys = rearrange(embed_dim, )
         # Secondly merge the batch_size with the num_heads
         keys = ...
         
