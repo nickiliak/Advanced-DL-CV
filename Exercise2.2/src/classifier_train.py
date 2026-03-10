@@ -20,7 +20,7 @@ from util import set_seed, prepare_dataloaders
 EPOCHS = 20
 
 def create_result_folders(experiment_name):
-    os.makedirs(os.path.join("weights", experiment_name), exist_ok=True)
+    os.makedirs(os.path.join("Exercise2.2/models", experiment_name), exist_ok=True)
 
 
 def train(device='cpu', T=500, img_size=16, input_channels=3, channels=32, time_dim=256):
@@ -45,18 +45,28 @@ def train(device='cpu', T=500, img_size=16, input_channels=3, channels=32, time_
     pbar = tqdm(range(1, EPOCHS + 1), desc='Training')
 
 
-    for epoch in pbar:
+    for epoch in range(1, EPOCHS + 1):
         model.train()
-        for images, labels in train_loader:
+        running_loss = 0.0
+        progress_bar = tqdm(train_loader, desc=f"Epoch {epoch}/{EPOCHS}")
+        for images, labels in progress_bar:
             images = images.to(device)
             labels = labels.to(device)
-
-            # Do not forget to noise your images !
-
-            ...
-    
+            t = torch.randint(0, T, (images.size(0),), device=device)
+            # Use the q_sample method to add noise to the images
+            noised_image, _ = diffusion.q_sample(images, t)
+            logits = model(noised_image, t)
+            loss = loss_fn(logits, labels)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            running_loss += loss.item()
+            progress_bar.set_postfix(loss=loss.item())
+            running_loss / len(train_loader)
+            
+                
     # save your checkpoint in weights/classifier/model.pth
-    torch.save(model.state_dict(), os.path.join("weights", exp_name, 'model.pth'))
+    torch.save(model.state_dict(), os.path.join("Exercise2.2/models", exp_name, 'model.pth'))
 
 def main():
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')  
@@ -66,6 +76,5 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
 
-        
+

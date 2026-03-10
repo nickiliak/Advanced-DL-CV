@@ -80,7 +80,7 @@ class Down(nn.Module):
 
     def forward(self, x, t):
         x = self.maxpool_conv(x)
-        emb = self.emb_layer(t)[:, :, None, None].repeat(1, 1, x.shape[-2], x.shape[-1])
+        emb = self.emb_layer(t.float())[:, :, None, None].repeat(1, 1, x.shape[-2], x.shape[-1])
         return x + emb
 
 
@@ -106,7 +106,7 @@ class Up(nn.Module):
         x = self.up(x)
         x = torch.cat([skip_x, x], dim=1)
         x = self.conv(x)
-        emb = self.emb_layer(t)[:, :, None, None].repeat(1, 1, x.shape[-2], x.shape[-1])
+        emb = self.emb_layer(t.float())[:, :, None, None].repeat(1, 1, x.shape[-2], x.shape[-1])
         return x + emb
 
 class UNet(nn.Module):
@@ -176,7 +176,33 @@ class UNet(nn.Module):
 class Classifier(nn.Module):
     def __init__(self, img_size=16, c_in=3, labels=5, time_dim=256, device="cuda", channels=32):
         super().__init__()
-        pass
-
+        
+        self.device = device
+        self.time_dim = time_dim
+        self.inc = DoubleConv(c_in, channels)
+        self.down1 = Down(channels, channels*2,  emb_dim=time_dim)
+        self.sa1 = SelfAttention(channels*2, img_size//2)
+        self.down2 = Down(channels*2, channels*4, emb_dim=time_dim)
+        
+        self.adaptPool = nn.AdaptiveAvgPool2d((1,1)) 
+        self.fc = nn.Linear(channels*4, labels)
+        self.logsoftmax = nn.LogSoftmax(dim=1)
+        
     def forward(self, x, t):
-        return
+            batch_size = x.size(0)
+            if t.ndim == 1:
+                t = t.unsqueeze(-1).type(torch.float)
+            t = pos_encoding(t, self.time_dim, self.device)
+                    
+            x1 = self.inc(x)
+            x2 = self.down1(x1, t)
+            x3 = self.sa1(x2)
+            x4 = self.down2(x3, t)
+            
+            x5 = self.adaptPool(x4)
+            x5 = x5.view(batch_size, -1)
+        
+            x6 = self.fc(x5)
+            log_probs = self.logsoftmax(x6)
+            
+            return log_probs

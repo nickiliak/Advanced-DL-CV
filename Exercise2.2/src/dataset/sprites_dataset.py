@@ -1,3 +1,4 @@
+import os
 import random
 
 import torch
@@ -7,16 +8,22 @@ import numpy as np
 from .helpers import set_seed
 
 class SpritesDataset(Dataset):
-    def __init__(self, 
-            transform,
-            sfilename='./data/sprites.npy', 
-            lfilename='./data/labels.npy', 
-            num_samples=40000,
-            seed=1,
-        ):
+    def __init__(
+        self,
+        transform,
+        sfilename="../../data/sprites.npy",
+        lfilename="../../data/labels.npy",
+        num_samples=40000,
+        seed=1,
+    ):
+        # Resolve absolute paths
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        sfilename = os.path.join(base_dir, sfilename)
+        lfilename = os.path.join(base_dir, lfilename)
+
         self.images = np.load(sfilename)
         labels = np.load(lfilename)
-        self.labels = np.argmax(labels, axis=1) 
+        self.labels = np.argmax(labels, axis=1)
 
         # Reduce dataset size
         if num_samples:
@@ -25,13 +32,11 @@ class SpritesDataset(Dataset):
             self.images = self.images[sampled_indeces]
             self.labels = self.labels[sampled_indeces]
 
-
         self.transform = transform
-       
-                
+
     def __len__(self):
         return len(self.images)
-    
+
     def __getitem__(self, idx):
         image = self.images[idx]
         label = self.labels[idx]
@@ -39,4 +44,3 @@ class SpritesDataset(Dataset):
             image = self.transform(image)
         return image, label
 
-  

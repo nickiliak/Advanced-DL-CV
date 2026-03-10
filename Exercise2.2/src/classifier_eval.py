@@ -34,7 +34,7 @@ def show_n_forward(imgs, title=None, fig_titles=None, save_path=None):
         plt.suptitle(title)
     
     if save_path is not None:
-        plt.savefig(save_path, bbox_inches='tight', pad_inches=0)
+        plt.savefig(os.path.join('../', save_path), bbox_inches='tight', pad_inches=0)
 
     plt.show()
 
@@ -42,7 +42,7 @@ def show_n_forward(imgs, title=None, fig_titles=None, save_path=None):
 if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     set_seed()
-    os.makedirs('assets', exist_ok=True)
+    os.makedirs('../assets', exist_ok=True)
     
     # Initialize diffusion class
     diffusion = Diffusion(img_size=16, T=500, beta_start=1e-4, beta_end=0.02, device=device)
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     )
     model.to(device)
     model.eval()
-    model.load_state_dict(torch.load('weights/classifier/model.pth', map_location=device))
+    model.load_state_dict(torch.load('../weights/classifier/model.pth', map_location=device))
 
     # sample time steps
     t = torch.Tensor([0, 50, 100, 150, 200, 300, 499]).long().to(device)
@@ -86,7 +86,7 @@ if __name__ == '__main__':
     plt.plot(t.cpu().numpy(), per_t_acc.cpu().numpy(), linewidth=3)
     plt.xlabel('Timestep', fontweight='bold')
     plt.ylabel('Accuracy', fontweight='bold')
-    plt.savefig('./assets/per_t_accuracy.png', bbox_inches='tight')
+    plt.savefig('../assets/per_t_accuracy.png', bbox_inches='tight')
 
 
     ########################################## Qualitative Results ############################################
@@ -114,4 +114,4 @@ if __name__ == '__main__':
         text_labels = [f'Pred: {pred.item()}, Target: {l.item()}, t:{ti.item()}' for pred, l,ti in zip(prediction, label, t)]
         vis_labels.extend(text_labels)
 
-    show_n_forward(vis_images, fig_titles=vis_labels, save_path='assets/clf_forward.png')
+    show_n_forward(vis_images, fig_titles=vis_labels, save_path='../assets/clf_forward.png')
