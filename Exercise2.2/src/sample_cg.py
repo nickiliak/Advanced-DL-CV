@@ -22,16 +22,16 @@ classifier = Classifier(
 )
 classifier.to(device)
 classifier.eval()
-classifier.load_state_dict(torch.load('weights/classifier/model.pth', map_location=device))
+classifier.load_state_dict(torch.load('Exercise2.2/models/classifier/model.pth', map_location=device))
 
 unet = UNet(device=device)
 unet.eval()
 unet.to(device)
-unet.load_state_dict(torch.load('weights/DDPM/model.pth', map_location=device))
+unet.load_state_dict(torch.load('Exercise2.2/models/DDPM/model.pth', map_location=device))
 diffusion.classifier = classifier 
 
 # Sample
 y = torch.tensor([0,1,2,3,4], device=device) 
 x_new = diffusion.p_sample_loop(unet, 5, y=y)
 imgs = [im_normalize(tens2image(x_gen.cpu())) for x_gen in x_new]
-show(imgs, fig_titles=CLASS_LABELS, title='Classifier Guidance', save_path='assets/cg_samples.png')
+show(imgs, fig_titles=CLASS_LABELS, title='Classifier Guidance', save_path='Exercise2.2/outputs/cg_samples.png')

@@ -38,10 +38,10 @@ def save_images(images, path, show=True, title=None, nrow=10):
 
 
 def create_result_folders(experiment_name):
-    os.makedirs("weights", exist_ok=True)
-    os.makedirs("results", exist_ok=True)
-    os.makedirs(os.path.join("weights", experiment_name), exist_ok=True)
-    os.makedirs(os.path.join("results", experiment_name), exist_ok=True)
+    os.makedirs("Exercise2.2/models", exist_ok=True)
+    os.makedirs("Exercise2.2/outputs", exist_ok=True)
+    os.makedirs(os.path.join("Exercise2.2/models", experiment_name), exist_ok=True)
+    os.makedirs(os.path.join("Exercise2.2/outputs", experiment_name), exist_ok=True)
 
 
 def train(T=500, cfg=True, img_size=16, input_channels=3, channels=32, 
@@ -62,7 +62,7 @@ def train(T=500, cfg=True, img_size=16, input_channels=3, channels=32,
     optimizer = optim.AdamW(model.parameters(), lr=lr)
     mse = torch.nn.MSELoss()
     
-    logger = SummaryWriter(os.path.join("runs", experiment_name))
+    logger = SummaryWriter(os.path.join("Exercise2.2/outputs", "runs", experiment_name))
     l = len(train_loader)
 
     min_train_loss = 1e10
@@ -84,12 +84,15 @@ def train(T=500, cfg=True, img_size=16, input_channels=3, channels=32,
             # Do not forget randomly discard labels
             p_uncod = 0.1
 
-            ...
+            # Sample random time steps for each image in the batch
+            t = torch.randint(0, T, (images.shape[0],), device=device)  # Corrected to use integer indices
+            x_t, noise = diffusion.q_sample(images, t)
 
-            t = ...
-            x_t, noise = ...
-            predicted_noise = ...
-            loss = ...
+            # Create a mask for randomly dropping labels
+            mask = torch.rand((labels.shape[0], 1), device=labels.device) < p_uncod
+            labels = torch.where(mask, torch.zeros_like(labels), labels)
+            predicted_noise = model(x_t, t, labels)
+            loss = mse(noise, predicted_noise)
 
             optimizer.zero_grad()
             loss.backward()
@@ -103,7 +106,7 @@ def train(T=500, cfg=True, img_size=16, input_channels=3, channels=32,
 
         epoch_loss /= l
         if epoch_loss <= min_train_loss:
-            torch.save(model.state_dict(), os.path.join("weights", experiment_name, f"model.pth"))
+            torch.save(model.state_dict(), os.path.join("Exercise2.2/models", experiment_name, f"model.pth"))
             min_train_loss = epoch_loss
 
             
@@ -116,7 +119,7 @@ def train(T=500, cfg=True, img_size=16, input_channels=3, channels=32,
             title = f'Epoch {epoch}'
 
         sampled_images = diffusion.p_sample_loop(model, batch_size=images.shape[0], y=y)
-        save_images(images=sampled_images, path=os.path.join("results", experiment_name, f"{epoch}.jpg"),
+        save_images(images=sampled_images, path=os.path.join("Exercise2.2/outputs", experiment_name, f"{epoch}.jpg"),
                     show=show, title=title)
         
 
@@ -145,6 +148,5 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
 
-        
+
