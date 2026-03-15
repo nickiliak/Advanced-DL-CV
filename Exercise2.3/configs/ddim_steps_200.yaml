@@ -1,0 +1,7 @@
+run_name: ddim_steps_200
+input_image: "../assets/group_photo.jpeg"
+input_image_prompt: "two young men sitting at a desk in an office"
+edit_prompt: "two young men sitting at a desk in an office wearing sunglasses"
+num_steps: 200
+start_step: 15
+guidance_scale: 5.5

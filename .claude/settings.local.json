@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wsl.exe -e bash -c \"~/.local/bin/uv run --project ''/mnt/c/Users/nick/Desktop/DTU Courses/02501 Advanced Deep Learning in CV/Advanced-DL-CV'' python -W all -v -c ''import torch'' 2>&1 | grep -E ''torch|error|Error|warn|failed|import'' | head -30\")",
+      "Bash(wsl.exe -e bash -c \"~/.local/bin/uv run --project ''/mnt/c/Users/nick/Desktop/DTU Courses/02501 Advanced Deep Learning in CV/Advanced-DL-CV'' python -c '':*)",
+      "Bash(wsl.exe -e bash -c \"find ''/mnt/c/Users/nick/Desktop/DTU Courses/02501 Advanced Deep Learning in CV/Advanced-DL-CV'' -name ''torch.py'' -o -name ''torch'' -type d 2>/dev/null | grep -v .venv\")",
+      "Bash(wsl.exe -e bash -c \"~/.local/bin/uv run --project ''/mnt/c/Users/nick/Desktop/DTU Courses/02501 Advanced Deep Learning in CV/Advanced-DL-CV'' python -c ''import sys; print\\(\"\"\\\\n\"\".join\\(sys.path\\)\\)'' 2>&1 | tail -15\")",
+      "Bash(wsl.exe -e bash -c \"ls ''/mnt/c/Users/nick/Desktop/DTU Courses/02501 Advanced Deep Learning in CV/Advanced-DL-CV/.venv/lib/python3.11/site-packages/'' | grep -i ''^torch''\")",
+      "Bash(wsl.exe -e bash -c \"ls ''/mnt/c/Users/nick/Desktop/DTU Courses/02501 Advanced Deep Learning in CV/Advanced-DL-CV/.venv/lib/python3.11/site-packages/torch/'' | head -10\")",
+      "Bash(wsl.exe -e bash -c \"ls ''/mnt/c/Users/nick/Desktop/DTU Courses/02501 Advanced Deep Learning in CV/Advanced-DL-CV/.venv/lib/python3.11/site-packages/torch/'' | grep ''__init__''\")",
+      "Bash(wsl.exe -e bash -c \"cat ''/mnt/c/Users/nick/Desktop/DTU Courses/02501 Advanced Deep Learning in CV/Advanced-DL-CV/.venv/lib/python3.11/site-packages/torch-2.10.0.dist-info/METADATA'' 2>&1 | grep -E ''Download-URL|Home-page|Requires|cuda|cu1'' | head -10\")",
+      "Bash(wsl.exe -e bash -c \"~/.local/bin/uv pip install --reinstall torch --project ''/mnt/c/Users/nick/Desktop/DTU Courses/02501 Advanced Deep Learning in CV/Advanced-DL-CV'' 2>&1 | tail -5\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\nick\\Desktop\\DTU Courses\\02501 Advanced Deep Learning in CV\\Advanced-DL-CV\\.claude"
+    ]
+  }
+}
