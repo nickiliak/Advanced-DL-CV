@@ -10,8 +10,8 @@
 #BSUB -R "span[hosts=1]"
 ### -- specify that we need 8GB of memory per core/slot --
 #BSUB -R "rusage[mem=8GB]"
-### -- specify that we want the job to get killed if it exceeds 10GB per core/slot --
-#BSUB -M 10GB
+### -- specify that we want the job to get killed if it exceeds 9GB per core/slot --
+#BSUB -M 9GB
 ### -- request 1 GPU --
 #BSUB -gpu "num=1:mode=exclusive_process"
 ### -- set walltime limit: hh:mm --
