@@ -3,7 +3,7 @@
 ### -- specify queue --
 #BSUB -q gpuv100
 ### -- set the job Name --
-#BSUB -J img2img_edit
+#BSUB -J ddim_editing
 ### -- ask for number of cores (default: 1) --
 #BSUB -n 4
 ### -- specify that the cores must be on the same host --
@@ -15,7 +15,7 @@
 ### -- request 1 GPU --
 #BSUB -gpu "num=1:mode=exclusive_process"
 ### -- set walltime limit: hh:mm --
-#BSUB -W 1:00
+#BSUB -W 4:00
 ### -- send notification at start --
 #BSUB -B
 ### -- send notification at completion --
@@ -46,8 +46,8 @@ uv sync
 echo "--- PyTorch CUDA check ---"
 uv run python -c "import torch; print('CUDA:', torch.cuda.is_available(), '|', torch.cuda.get_device_name(0))"
 
-echo "--- Starting img2img editing ---"
-uv run python Exercise2.3/src/image_to_image_simple_editing.py
+echo "--- Starting DDIM editing ---"
+uv run python Exercise2.3/src/ddim_inversion_simple_editing.py
 
 echo "=========================================="
 echo "Job finished: $(date)"
