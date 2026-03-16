@@ -115,8 +115,8 @@ def sample(prompt, start_step=0, start_latents=None,
         # latents = ...
         # ─────────────────────────────────────────────────────────────────────
 
-    x_0 = (latents - torch.sqrt(1 - alpha_t) * noise_pred) / torch.sqrt(alpha_t)
-    latents = torch.sqrt(alpha_t_prev) * x_0 + torch.sqrt(1 - alpha_t_prev) * noise_pred
+        x_0 = (latents - torch.sqrt(1 - alpha_t) * noise_pred) / torch.sqrt(alpha_t)
+        latents = torch.sqrt(alpha_t_prev) * x_0 + torch.sqrt(1 - alpha_t_prev) * noise_pred
 
     # Decode the final latent back to pixel space
     images = pipe.decode_latents(latents)
